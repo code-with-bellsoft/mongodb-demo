@@ -1,0 +1,20 @@
+package dev.cyberjar.repository.implantmonitoring;
+
+import dev.cyberjar.entity.ImplantMonitoringLog;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+
+public interface ImplantMonitoringLogRepository extends MongoRepository<ImplantMonitoringLog, Long>, ImplantMonitoringLogRepositoryCustom {
+
+    List<ImplantMonitoringLog> findByImplantSerialNumber(String implantSerialNumber);
+
+    List<ImplantMonitoringLog> findByImplantSerialNumberAndTimestampAfter(String implantSerialNumber,
+                                                                          LocalDateTime timestamp);
+
+    List<ImplantMonitoringLog> findByImplantSerialNumberAndTimestampBetween(String implantSerialNumber,
+                                                                            LocalDateTime timestampFrom,
+                                                                            LocalDateTime timestampTo);
+}
