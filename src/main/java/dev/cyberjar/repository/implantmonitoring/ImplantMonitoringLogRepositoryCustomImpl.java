@@ -29,7 +29,9 @@ public class ImplantMonitoringLogRepositoryCustomImpl implements ImplantMonitori
 
         ProjectionOperation project = Aggregation.project()
                 .and("_id").as("implantSerialNumber")
-                .andInclude("avgPowerUsageUw", "avgCpuUsagePct", "avgNeuralLatencyMs");
+                .and(ArithmeticOperators.Round.roundValueOf("avgPowerUsageUw").place(2)).as("avgPowerUsageUw")
+                .and(ArithmeticOperators.Round.roundValueOf("avgCpuUsagePct").place(2)).as("avgCpuUsagePct")
+                .and(ArithmeticOperators.Round.roundValueOf("avgNeuralLatencyMs").place(2)).as("avgNeuralLatencyMs");
 
         Aggregation aggregation = Aggregation.newAggregation(match, group, project);
 

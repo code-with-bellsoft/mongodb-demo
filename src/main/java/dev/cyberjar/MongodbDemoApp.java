@@ -31,7 +31,7 @@ public class MongodbDemoApp {
             ImplantMonitoringLogService implantMonitoringLogService
     ) {
         return args -> {
-            System.out.println("🔧 Verifying data loaded by Mongock...");
+            System.out.println("Verifying data loaded by Mongock...");
 
 
 
