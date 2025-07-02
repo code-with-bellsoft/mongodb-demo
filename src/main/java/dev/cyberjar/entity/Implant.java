@@ -12,8 +12,6 @@ import java.util.Objects;
 
 public class Implant {
 
-    @Id
-    private Long id;
     private String type;
     private String model;
     private String version;
@@ -23,20 +21,16 @@ public class Implant {
     @Indexed
     private int lotNumber;
     private LocalDate installedAt;
-    @CreatedDate
-    private final LocalDateTime registeredInSystemAt;
 
     public Implant() {
-        registeredInSystemAt = LocalDateTime.now();
 
     }
 
-    public Implant(Long id, String type,
+    public Implant(String type,
                    String model, String version,
                    String manufacturer, int lotNumber,
                    String serialNumber,
                    String installedAt) {
-        this.id = id;
         this.type = type;
         this.model = model;
         this.version = version;
@@ -44,15 +38,6 @@ public class Implant {
         this.lotNumber = lotNumber;
         this.serialNumber = serialNumber;
         this.installedAt = LocalDate.parse(installedAt);
-        registeredInSystemAt = LocalDateTime.now();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getType() {
@@ -111,33 +96,16 @@ public class Implant {
         this.lotNumber = lotNumber;
     }
 
-    public LocalDateTime getRegisteredInSystemAt() {
-        return registeredInSystemAt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Implant cyberware = (Implant) o;
-        return Objects.equals(id, cyberware.id);
+        Implant implant = (Implant) o;
+        return Objects.equals(serialNumber, implant.serialNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Implant{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", model='" + model + '\'' +
-                ", version='" + version + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", serialNumber='" + serialNumber + '\'' +
-                ", installedAt=" + installedAt +
-                '}';
+        return Objects.hashCode(serialNumber);
     }
 }

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-public interface ImplantMonitoringLogRepository extends MongoRepository<ImplantMonitoringLog, Long>, ImplantMonitoringLogRepositoryCustom {
+public interface ImplantMonitoringLogRepository extends MongoRepository<ImplantMonitoringLog, String>, ImplantMonitoringLogRepositoryCustom {
 
     List<ImplantMonitoringLog> findByImplantSerialNumber(String implantSerialNumber);
 

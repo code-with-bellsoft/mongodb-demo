@@ -38,12 +38,12 @@ public class ImplantMonitoringLog {
 
     public ImplantMonitoringLog(String id,
                                 String implantSerialNumber,
-                                String civilianNationalId, String timestamp,
+                                String civilianNationalId, LocalDateTime timestamp,
                                 double powerUsageUw, double cpuUsagePct, double neuralLatencyMs) {
         this.id = id;
         this.implantSerialNumber = implantSerialNumber;
         this.civilianNationalId = civilianNationalId;
-        this.timestamp = LocalDateTime.parse(timestamp);
+        this.timestamp = timestamp;
         this.powerUsageUw = powerUsageUw;
         this.cpuUsagePct = cpuUsagePct;
         this.neuralLatencyMs = neuralLatencyMs;

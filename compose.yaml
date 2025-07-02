@@ -10,7 +10,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - mongo_data:/data/mongo
     command: "mongod --quiet --logpath /dev/null "
     healthcheck:
       test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
@@ -20,7 +20,7 @@ services:
       start_period: 10s
 
 volumes:
-  mongodb_data:
+  mongo_data:
 
 networks:
   neurowatch_net:

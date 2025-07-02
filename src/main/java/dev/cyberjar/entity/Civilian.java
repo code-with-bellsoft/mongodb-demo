@@ -4,7 +4,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ import java.util.Objects;
 public class Civilian {
 
     @Id
-    private Long id;
+    private String id;
     private String legalName;
     @Indexed(unique = true)
     private String nationalId;
@@ -33,7 +32,7 @@ public class Civilian {
         registeredInSystemAt = LocalDateTime.now();
     }
 
-    public Civilian(Long id, String legalName, String nationalId,
+    public Civilian(String id, String legalName, String nationalId,
                     String birthDate, boolean criminalRecord,
                     boolean underSurveillance) {
         this.id = id;
@@ -45,7 +44,7 @@ public class Civilian {
         registeredInSystemAt = LocalDateTime.now();
     }
 
-    public Civilian(Long id, String legalName, String nationalId,
+    public Civilian(String id, String legalName, String nationalId,
                     String birthDate, boolean criminalRecord,
                     boolean underSurveillance,
                     List<Implant> newImplants) {
@@ -59,11 +58,11 @@ public class Civilian {
         implants.addAll(newImplants);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -107,7 +106,7 @@ public class Civilian {
         this.underSurveillance = underSurveillance;
     }
 
-    public List<Implant> getImplantIds() {
+    public List<Implant> getImplants() {
         return implants;
     }
 
