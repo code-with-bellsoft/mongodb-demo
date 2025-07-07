@@ -7,12 +7,9 @@ import io.mongock.api.annotations.*;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 @ChangeUnit(id = "data-initializer", order = "001", author = "cyberjar")
 public class DataInitializerChangeUnit {
