@@ -17,6 +17,8 @@ public interface CivilianRepository extends MongoRepository<Civilian, String>, C
 
     boolean existsByNationalId(String nationalId);
 
+    List<CivilianSummary> findAllByUnderSurveillance(boolean underSurveillance);
+
     /*
     Alternative to MongoTemplate:
 

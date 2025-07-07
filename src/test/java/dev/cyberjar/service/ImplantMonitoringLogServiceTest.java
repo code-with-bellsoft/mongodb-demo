@@ -47,6 +47,15 @@ class ImplantMonitoringLogServiceTest {
                 LocalDateTime.now()
         );
 
+        /*
+
+        Stats for implant 447327:
+   Power: 16.0 µW
+   CPU: 15.5 %
+   Latency: 15.0 ms
+
+         */
+
 
 //        double expectedAvgPowerUsage = 51.02;
 //        assertEquals(expectedAvgPowerUsage, stats.getAvgPowerUsageUw());

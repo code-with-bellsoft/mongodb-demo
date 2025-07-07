@@ -52,9 +52,9 @@ public class MongodbDemoApp {
 
             if (stats != null) {
                 System.out.println("Stats for implant 447327:");
-                System.out.println("   Power: " + stats.getAvgPowerUsageUw() + " µW");
-                System.out.println("   CPU: " + stats.getAvgCpuUsagePct() + " %");
-                System.out.println("   Latency: " + stats.getAvgNeuralLatencyMs() + " ms");
+                System.out.println("   Power: " + stats.avgPowerUsageUw() + " µW");
+                System.out.println("   CPU: " + stats.avgCpuUsagePct() + " %");
+                System.out.println("   Latency: " + stats.avgNeuralLatencyMs() + " ms");
             } else {
                 System.out.println("No monitoring logs found for 447327");
             }

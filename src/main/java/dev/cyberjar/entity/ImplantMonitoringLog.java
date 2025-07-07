@@ -2,7 +2,10 @@ package dev.cyberjar.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -23,10 +26,16 @@ public class ImplantMonitoringLog {
     private double cpuUsagePct;
     private double neuralLatencyMs;
 
+    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+    private Point location;
+
     public ImplantMonitoringLog(String id,
                                 String implantSerialNumber,
                                 String civilianNationalId,
-                                double powerUsageUw, double cpuUsagePct, double neuralLatencyMs) {
+                                double powerUsageUw,
+                                double cpuUsagePct,
+                                double neuralLatencyMs,
+                                Point location) {
         this.id = id;
         this.implantSerialNumber = implantSerialNumber;
         this.civilianNationalId = civilianNationalId;
@@ -34,12 +43,16 @@ public class ImplantMonitoringLog {
         this.cpuUsagePct = cpuUsagePct;
         this.neuralLatencyMs = neuralLatencyMs;
         timestamp = LocalDateTime.now();
+        this.location = location;
     }
 
     public ImplantMonitoringLog(String id,
                                 String implantSerialNumber,
                                 String civilianNationalId, LocalDateTime timestamp,
-                                double powerUsageUw, double cpuUsagePct, double neuralLatencyMs) {
+                                double powerUsageUw,
+                                double cpuUsagePct,
+                                double neuralLatencyMs,
+                                Point location) {
         this.id = id;
         this.implantSerialNumber = implantSerialNumber;
         this.civilianNationalId = civilianNationalId;
@@ -47,6 +60,7 @@ public class ImplantMonitoringLog {
         this.powerUsageUw = powerUsageUw;
         this.cpuUsagePct = cpuUsagePct;
         this.neuralLatencyMs = neuralLatencyMs;
+        this.location = location;
     }
 
 
@@ -106,6 +120,14 @@ public class ImplantMonitoringLog {
 
     public void setImplantSerialNumber(String implantSerialNumber) {
         this.implantSerialNumber = implantSerialNumber;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
     @Override

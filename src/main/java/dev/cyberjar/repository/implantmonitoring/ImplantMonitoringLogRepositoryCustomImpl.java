@@ -1,12 +1,18 @@
 package dev.cyberjar.repository.implantmonitoring;
 
+import dev.cyberjar.entity.ImplantMonitoringLog;
 import dev.cyberjar.entity.MonitoringStats;
+import org.bson.Document;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ImplantMonitoringLogRepositoryCustomImpl implements ImplantMonitoringLogRepositoryCustom {
@@ -39,5 +45,40 @@ public class ImplantMonitoringLogRepositoryCustomImpl implements ImplantMonitori
                 aggregation, "implant_logs", MonitoringStats.class);
 
         return results.getUniqueMappedResult();
+    }
+
+    @Override
+    public Map<String, List<ImplantMonitoringLog>> findLogsByAreaAndTimeGrouped(Point center,
+                                                                                double maxDistanceMeters,
+                                                                                LocalDateTime from,
+                                                                                LocalDateTime to) {
+        MatchOperation match = Aggregation.match(
+                Criteria.where("location").nearSphere(center)
+                        .maxDistance(maxDistanceMeters)
+                        .and("timestamp").gte(from).lte(to));
+
+        GroupOperation group = Aggregation.group("implantSerialNumber")
+                .push(Aggregation.ROOT).as("logs");
+
+        Aggregation aggregation = Aggregation.newAggregation(match, group);
+
+        AggregationResults<Document> results = mongoTemplate.aggregate(
+                aggregation, "implant_logs", Document.class);
+
+        Map<String, List<ImplantMonitoringLog>> grouped = new HashMap<>();
+
+        for (Document doc : results.getMappedResults()) {
+            String serialNumber = doc.getString("_id");
+            List<Document> logsDocs = (List<Document>) doc.get("logs");
+
+            List<ImplantMonitoringLog> logs = logsDocs.stream()
+                    .map(d -> mongoTemplate.getConverter()
+                            .read(ImplantMonitoringLog.class, d))
+                    .toList();
+
+            grouped.put(serialNumber, logs);
+        }
+
+        return grouped;
     }
 }

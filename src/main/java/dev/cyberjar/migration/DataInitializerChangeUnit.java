@@ -4,6 +4,7 @@ import dev.cyberjar.entity.Civilian;
 import dev.cyberjar.entity.Implant;
 import dev.cyberjar.entity.ImplantMonitoringLog;
 import io.mongock.api.annotations.*;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.time.Duration;
@@ -70,19 +71,20 @@ public class DataInitializerChangeUnit {
         String implantSerialNum = implants.getFirst().getSerialNumber();
         String civilianNationalId = civilians.getFirst().getNationalId();
 
-        double min = 1.0;
-        double max = 100.0;
+        double powerUsage = 1.5;
+        double cpuUsage = 1.0;
+        double neuralLatency = 0.5;
+
         List<ImplantMonitoringLog> logs = new ArrayList<>();
 
         for (int i = 0; i < 30; i++) {
             ImplantMonitoringLog implantMonitoringLog = new ImplantMonitoringLog(null,
                     implantSerialNum, civilianNationalId,
-                    RandomDateTimeGenerator.generateRandomDateTime(
-                            LocalDateTime.now().minusDays(7),
-                            LocalDateTime.now()),
-                    ThreadLocalRandom.current().nextDouble(min, max),
-                    ThreadLocalRandom.current().nextDouble(min, max),
-                    ThreadLocalRandom.current().nextDouble(min, max));
+                    LocalDateTime.now().minusHours(i),
+                    powerUsage + i,
+                    cpuUsage + i,
+                    neuralLatency + i,
+                    new Point(4.899, 52.372)); //Coordinates for Amsterdam longitude/latitude
 
             logs.add(implantMonitoringLog);
         }
@@ -95,18 +97,6 @@ public class DataInitializerChangeUnit {
 
         mongoTemplate.dropCollection("civilians");
         mongoTemplate.dropCollection("implant_logs");
-    }
-
-    static class RandomDateTimeGenerator {
-
-        private static final Random random = new Random();
-
-        public static LocalDateTime generateRandomDateTime(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-
-            long secondsBetween = Duration.between(startDateTime, endDateTime).getSeconds();
-            long randomSeconds = random.nextInt((int) secondsBetween + 1);
-            return startDateTime.plusSeconds(randomSeconds);
-        }
     }
 
 }

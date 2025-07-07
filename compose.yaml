@@ -10,7 +10,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/mongo
+      - mongo_data:/data/mongo-data
     command: "mongod --quiet --logpath /dev/null "
     healthcheck:
       test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
