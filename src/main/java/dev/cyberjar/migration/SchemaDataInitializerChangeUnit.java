@@ -4,32 +4,73 @@ import dev.cyberjar.entity.Civilian;
 import dev.cyberjar.entity.Implant;
 import dev.cyberjar.entity.ImplantMonitoringLog;
 import io.mongock.api.annotations.*;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeospatialIndex;
+import org.springframework.data.mongodb.core.index.Index;
+import org.springframework.data.mongodb.core.index.IndexOperations;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@ChangeUnit(id = "data-initializer", order = "001", author = "cyberjar")
-public class DataInitializerChangeUnit {
+@ChangeUnit(id = "schema-and-test-data", order = "001", author = "cyberjar")
+public class SchemaDataInitializerChangeUnit {
+
+    private final MongoTemplate mongoTemplate;
+
+    public SchemaDataInitializerChangeUnit(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
 
     @BeforeExecution
-    public void beforeExecution(MongoTemplate mongoTemplate) {
+    public void beforeExecution() {
 
         mongoTemplate.createCollection("civilians");
         mongoTemplate.createCollection("implant_logs");
+
+        IndexOperations civilianOps = mongoTemplate.indexOps("civilians");
+
+        civilianOps.createIndex(
+                new Index().on("nationalId", Sort.Direction.ASC).unique());
+
+        IndexOperations implantOps = mongoTemplate.indexOps(Implant.class);
+        implantOps.createIndex(
+                new Index().on("serialNumber", Sort.Direction.ASC).unique());
+        implantOps.createIndex(
+                new Index().on("lotNumber", Sort.Direction.ASC));
+
+
+        IndexOperations logOps = mongoTemplate.indexOps("implant_logs");
+
+        logOps.createIndex(
+                new Index().on("implantSerialNumber", Sort.Direction.ASC));
+        logOps.createIndex(
+                new Index().on("timestamp", Sort.Direction.DESC));
+        logOps.createIndex(
+                new GeospatialIndex("location")
+                        .typed(GeoSpatialIndexType.GEO_2DSPHERE));
+
+        logOps.createIndex(
+                new Index()
+                        .on("timestamp", Sort.Direction.ASC)
+                        .expire(Duration.ofDays(90)));
+
     }
 
     @RollbackBeforeExecution
-    public void rollbackBeforeExecution(MongoTemplate mongoTemplate) {
+    public void rollbackBeforeExecution() {
 
         mongoTemplate.dropCollection("civilians");
         mongoTemplate.dropCollection("implant_logs");
     }
 
     @Execution
-    public void seedDatabase(MongoTemplate mongoTemplate) {
+    public void seedData() {
 
         List<Implant> implants = new ArrayList<>();
         implants.add(new Implant("ocular", "Model-fXX373", "1.2", "NeuroCore", 617, "447327", "2023-07-03"));
@@ -90,7 +131,7 @@ public class DataInitializerChangeUnit {
     }
 
     @RollbackExecution
-    public void rollbackExecution(MongoTemplate mongoTemplate) {
+    public void rollbackExecution() {
 
         mongoTemplate.dropCollection("civilians");
         mongoTemplate.dropCollection("implant_logs");
