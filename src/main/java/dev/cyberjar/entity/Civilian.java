@@ -17,7 +17,7 @@ public class Civilian {
     @Id
     private String id;
     private String legalName;
-    @Indexed(unique = true)
+  //  @Indexed(unique = true)
     private String nationalId;
     private LocalDate birthDate;
     private boolean criminalRecord;

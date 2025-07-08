@@ -26,7 +26,7 @@ public class ImplantMonitoringLog {
     private double cpuUsagePct;
     private double neuralLatencyMs;
 
-    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+   // @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private Point location;
 
     public ImplantMonitoringLog(String id,

@@ -16,9 +16,9 @@ public class Implant {
     private String model;
     private String version;
     private String manufacturer;
-    @Indexed(unique = true)
+ //   @Indexed(unique = true)
     private String serialNumber;
-    @Indexed
+   // @Indexed
     private int lotNumber;
     private LocalDate installedAt;
 

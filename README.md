@@ -18,11 +18,14 @@ A Spring Boot application demonstrating the use of Spring Data MongoDB
 
 ## Running the Application
 
+This application uses Mongock for manual definition of schema and indices. This is why the Indexed annotations are commented out. 
+If you don't want to use Mongock, remove it from the code and uncomment @Indexed annotations in entity classes.
+
 ### Running Locally
 
 1. Start the MongoDB container:
    ```bash
-   docker-compose up -d mongodb
+   docker-compose up -d
    ```
 
 2. Build and run the app:
