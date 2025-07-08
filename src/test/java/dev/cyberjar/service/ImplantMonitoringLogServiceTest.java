@@ -36,16 +36,6 @@ class ImplantMonitoringLogServiceTest {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @BeforeAll
-    static void startContainerBeforeAll() {
-        mongoDBContainer.start();
-    }
-
-    @AfterAll
-    static void stopContainerAfterAll() {
-        mongoDBContainer.stop();
-    }
-
     @BeforeEach
     void populateWithData() {
         mongoTemplate.createCollection("implant_logs");
