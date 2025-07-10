@@ -4,8 +4,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -25,8 +23,8 @@ public class ImplantMonitoringLog {
     private double powerUsageUw;
     private double cpuUsagePct;
     private double neuralLatencyMs;
-
-   // @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+    // indexes are commented out because the app uses mongock
+    // @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private Point location;
 
     public ImplantMonitoringLog(String id,

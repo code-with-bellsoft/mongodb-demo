@@ -1,12 +1,7 @@
 package dev.cyberjar.entity;
 
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -16,9 +11,10 @@ public class Implant {
     private String model;
     private String version;
     private String manufacturer;
- //   @Indexed(unique = true)
+    // indexes are commented out because the app uses mongock
+    //   @Indexed(unique = true)
     private String serialNumber;
-   // @Indexed
+    // @Indexed
     private int lotNumber;
     private LocalDate installedAt;
 
