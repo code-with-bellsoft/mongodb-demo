@@ -2,7 +2,7 @@ services:
   mongodb:
     image: mongo:latest
     container_name: mongodb
-    restart: always
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_DATABASE=neurowatch
     networks:
